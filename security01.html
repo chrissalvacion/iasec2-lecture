@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Principles Presentation</title>
+    <style>
+        :root {
+            --bg-color: #f0f4f8;
+            --slide-bg: #ffffff;
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --text: #333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        /* Slide Container */
+        .presentation-container {
+            width: 90%;
+            max-width: 1000px;
+            aspect-ratio: 16/9;
+            background: var(--slide-bg);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Slide Content */
+        .slide {
+            display: none; /* Hidden by default */
+            flex: 1;
+            padding: 40px 60px;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeEffect 0.5s;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeEffect {
+            from {opacity: 0; transform: translateY(20px);} 
+            to {opacity: 1; transform: translateY(0);}
+        }
+
+        /* Typography */
+        h1 { font-size: 2.5rem; color: var(--primary); margin-bottom: 10px; }
+        h2 { font-size: 2rem; color: var(--primary); margin-bottom: 20px; border-bottom: 3px solid var(--accent); display: inline-block; }
+        h3 { font-size: 1.5rem; color: var(--accent); margin-top: 0; }
+        p, li { font-size: 1.2rem; line-height: 1.6; color: var(--text); }
+        
+        .highlight { color: var(--accent); font-weight: bold; }
+        .example-box {
+            background: #eef7fc;
+            border-left: 5px solid var(--accent);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* Quiz Specific Styles */
+        .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .quiz-btn {
+            padding: 15px;
+            font-size: 1.1rem;
+            border: 2px solid #ddd;
+            background: white;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .quiz-btn:hover { background: #f9f9f9; border-color: #bbb; }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 15px;
+            font-weight: bold;
+            border-radius: 5px;
+            display: none;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .feedback.correct { background: #d4edda; color: #155724; }
+        .feedback.wrong { background: #f8d7da; color: #721c24; }
+
+        /* Navigation Controls */
+        .controls {
+            height: 60px;
+            background: var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .progress { font-size: 0.9rem; letter-spacing: 1px; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .presentation-container { width: 100%; height: 100vh; border-radius: 0; aspect-ratio: auto; }
+            .slide { padding: 20px; }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.5rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <div class="slide active">
+        <div style="text-align: center;">
+            <h1>Security Design Principles & Practices</h1>
+            <p>An Interactive Guide to Core Concepts and Models</p>
+            <p style="margin-top: 50px; font-size: 1rem; color: #666;">Use the arrows below or your keyboard keys to navigate.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>1. Least Privilege</h2>
+        <p><strong>Definition:</strong> Users and systems should only be given the <span class="highlight">minimum access</span> required to perform their tasks.</p>
+        <p>By limiting privileges, the potential damage caused by mistakes or attacks is drastically reduced.</p>
+        <div class="example-box">
+            <strong>Example:</strong> A student in a school system can <em>view</em> their own grades but cannot <em>edit</em> them. Only authorized faculty can update records.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>2. Defense in Depth</h2>
+        <p><strong>Definition:</strong> Using <span class="highlight">multiple layers</span> of security controls. This ensures that if one layer fails, others still provide protection.</p>
+        <p>This approach recognizes that no single security measure is perfect.</p>
+        <div class="example-box">
+            <strong>Example:</strong>
+            <br>1. Login Password
+            <br>2. Two-Factor Authentication (2FA)
+            <br>3. Firewall
+            <br>4. Data Encryption
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>3. Separation of Duties</h2>
+        <p><strong>Definition:</strong> Critical tasks are divided among multiple individuals or systems.</p>
+        <p>This prevents a single person from having enough power to commit fraud or abuse without detection.</p>
+        <div class="example-box">
+            <strong>Example:</strong> The employee who <em>requests</em> a purchase is different from the manager who <em>approves</em> the payment.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>4. Secure by Design / Fail-Safe</h2>
+        <p><strong>Definition:</strong> Systems should be secure by default. When errors occur, the system should <span class="highlight">deny access</span> (Fail Closed) rather than allow it (Fail Open).</p>
+        <div class="example-box">
+            <strong>Example:</strong> An electronic door lock loses power. 
+            <br><em>Fail-Safe:</em> The door remains locked to keep intruders out.
+            <br><em>(Note: In physical safety scenarios, doors might unlock for fire safety, but in digital security, we default to deny).</em>
+        </div>
+    </div>
+
+    <div class="slide">
+        <div style="text-align: center;">
+            <h1>Part II: Security Models</h1>
+            <p>Formal rules and structures that guide how security policies are enforced.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>1. Bell–LaPadula Model</h2>
+        <h3>Focus: Confidentiality (Secrecy)</h3>
+        <p>Common in military and government. It prevents data leaks.</p>
+        <ul>
+            <li><strong>No Read Up:</strong> A user cannot read data at a higher classification level.</li>
+            <li><strong>No Write Down:</strong> A user cannot write sensitive data to lower levels.</li>
+        </ul>
+        <div class="example-box">
+            <strong>Goal:</strong> Keep secrets secret.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>2. Biba Model</h2>
+        <h3>Focus: Integrity (Trustworthiness)</h3>
+        <p>Concerned with ensuring data is not corrupted or modified by unreliable sources.</p>
+        <ul>
+            <li><strong>No Write Up:</strong> Lower-level users cannot change high-level data.</li>
+            <li><strong>No Read Down:</strong> Do not read potentially unreliable lower-level data.</li>
+        </ul>
+        <div class="example-box">
+            <strong>Goal:</strong> Keep data accurate.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>3. Clark–Wilson Model</h2>
+        <h3>Focus: Commercial Integrity</h3>
+        <p>Best suited for banking and accounting. It relies on:</p>
+        <ul>
+            <li><strong>Well-formed transactions:</strong> Steps must be followed exactly.</li>
+            <li><strong>Separation of Duties:</strong> Splitting tasks.</li>
+            <li><strong>Auditing:</strong> Tracking who did what.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>4. Access Control Models</h2>
+        <ul>
+            <li><strong>DAC (Discretionary):</strong> The resource owner decides who gets in (e.g., social media privacy settings).</li>
+            <li><strong>MAC (Mandatory):</strong> The system decides based on strict labels (Top Secret, Secret).</li>
+            <li><strong>RBAC (Role-Based):</strong> Access is based on your job title. Most common in modern companies.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h3>Scenario Challenge 1</h3>
+        <p>A web application crashes while verifying a user. Instead of showing an admin dashboard, it defaults to an "Access Denied" error page. Which principle is this?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Fail-Safe Defaults ensures systems default to a secure state when they crash.')">Secure by Design / Fail-Safe</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Separation of Duties is about splitting tasks.')">Separation of Duties</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Least Privilege is about limiting rights, not handling crashes.')">Least Privilege</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Defense in Depth is about layers.')">Defense in Depth</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Scenario Challenge 2</h3>
+        <p>You are designing a banking system. You need to ensure that a teller cannot simply modify their own account balance without a manager's verification. Which model fits best?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Bell-LaPadula is for military secrecy.')">Bell–LaPadula</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Clark-Wilson focuses on commercial integrity and separation of duties.')">Clark–Wilson Model</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. DAC allows owners to modify data freely, which is bad for banking.')">DAC</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Biba is close, but Clark-Wilson is specifically for commercial transactions.')">Biba Model</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Scenario Challenge 3</h3>
+        <p>A General wants to ensure a 'Top Secret' document is not accidentally emailed to an 'Unclassified' server. Which rule prevents this?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. No Read Up prevents reading higher data.')">No Read Up</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. No Write Up is a Biba Integrity rule.')">No Write Up</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! No Write Down prevents high-level info from leaking to lower levels.')">No Write Down</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Least Privilege is a general principle, not the specific rule here.')">Least Privilege</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <div style="text-align: center;">
+            <h1>Presentation Complete</h1>
+            <p>You have reviewed the core Security Principles and Models.</p>
+            <button class="quiz-btn" style="display:inline-block; margin-top:20px; text-align:center;" onclick="location.reload()">Restart Presentation</button>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8592; Previous</button>
+        <span class="progress" id="slideCount">1 / 14</span>
+        <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next &#8594;</button>
+    </div>
+
+</div>
+
+<script>
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const slideCountDisplay = document.getElementById('slideCount');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateControls() {
+        // Update counter
+        slideCountDisplay.textContent = `${currentSlideIndex + 1} / ${slides.length}`;
+        
+        // Disable buttons at ends
+        prevBtn.disabled = currentSlideIndex === 0;
+        nextBtn.disabled = currentSlideIndex === slides.length - 1;
+    }
+
+    function showSlide(index) {
+        // Hide all
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+        // Show current
+        slides[index].classList.add('active');
+        
+        updateControls();
+    }
+
+    function changeSlide(direction) {
+        const newIndex = currentSlideIndex + direction;
+        if (newIndex >= 0 && newIndex < slides.length) {
+            currentSlideIndex = newIndex;
+            showSlide(currentSlideIndex);
+        }
+    }
+
+    function checkAnswer(btn, isCorrect, msg) {
+        // Find feedback div in current slide
+        const slide = btn.closest('.slide');
+        const feedback = slide.querySelector('.feedback');
+        const allBtns = slide.querySelectorAll('.quiz-btn');
+
+        // Reset
+        allBtns.forEach(b => {
+            b.style.background = 'white';
+            b.style.borderColor = '#ddd';
+            b.style.cursor = 'default';
+            b.disabled = true; // Lock answers
+        });
+
+        feedback.style.display = 'block';
+        feedback.textContent = msg;
+        
+        if(isCorrect) {
+            feedback.className = 'feedback correct';
+            btn.style.background = '#d4edda';
+            btn.style.borderColor = '#c3e6cb';
+        } else {
+            feedback.className = 'feedback wrong';
+            btn.style.background = '#f8d7da';
+            btn.style.borderColor = '#f5c6cb';
+        }
+    }
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') changeSlide(1);
+        if (e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    // Initialize
+    showSlide(currentSlideIndex);
+
+</script>
+
+</body>
+</html>
