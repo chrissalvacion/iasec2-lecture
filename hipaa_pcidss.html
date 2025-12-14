@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIPAA & PCI DSS Compliance Training</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Deep professional blue/teal */
+            --slide-bg: #ffffff;
+            --text-main: #333333;
+            --hipaa-color: #0056b3; /* Medical Blue */
+            --pci-color: #b33900;   /* Security/Alert Orange */
+            --success: #28a745;
+            --error: #dc3545;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-gradient);
+            height: 100vh;
+            overflow: hidden;
+            color: var(--text-main);
+        }
+
+        /* Container */
+        .deck-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Slides */
+        .slide {
+            background: var(--slide-bg);
+            width: 85%;
+            max-width: 1100px;
+            height: 80vh;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            padding: 40px 60px;
+            box-sizing: border-box;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            position: absolute;
+        }
+
+        .slide.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1 { font-size: 2.8rem; margin-bottom: 0.5em; }
+        h2 { font-size: 2rem; border-bottom: 3px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+        p, li { font-size: 1.25rem; line-height: 1.6; margin-bottom: 15px; }
+        
+        .hipaa-title { color: var(--hipaa-color); }
+        .pci-title { color: var(--pci-color); }
+
+        /* Specific Content Styling */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #ccc;
+        }
+
+        .info-card.admin { border-color: #007bff; }
+        .info-card.physical { border-color: #28a745; }
+        .info-card.tech { border-color: #ffc107; }
+
+        .example-box {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            font-style: italic;
+            border-left: 4px solid var(--hipaa-color);
+        }
+        
+        .pci-box {
+            background-color: #fff3e0;
+            border-left: 4px solid var(--pci-color);
+        }
+
+        /* Quiz Styles */
+        .quiz-container { margin-top: 20px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        
+        .quiz-btn {
+            padding: 20px;
+            font-size: 1.1rem;
+            background: #fdfdfd;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .quiz-btn:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        .quiz-btn:disabled { cursor: default; }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none;
+            text-align: center;
+        }
+        .feedback.correct { background: #d4edda; color: #155724; }
+        .feedback.wrong { background: #f8d7da; color: #721c24; }
+
+        /* Navigation */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 8px 24px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+
+        .nav-btn:hover { background: rgba(255,255,255,0.2); }
+        .counter { color: white; align-self: center; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+<div class="deck-container">
+
+    <div class="slide active" style="text-align: center;">
+        <h1 style="font-size: 3.5rem;">Compliance Essentials</h1>
+        <h2 style="border:none;">HIPAA & PCI DSS</h2>
+        <p>Understanding the standards for protecting Health Information & Payment Data.</p>
+        <p style="margin-top: 40px; font-size: 1rem; opacity: 0.7;">Use arrows or buttons to navigate</p>
+    </div>
+
+    <div class="slide">
+        <h2 class="hipaa-title">What is HIPAA?</h2>
+        <p><strong>Health Insurance Portability and Accountability Act</strong></p>
+        <p>A U.S. law setting standards for protecting sensitive patient health information, known as <strong>Protected Health Information (PHI)</strong>.</p>
+        
+        <h3>Key Objectives:</h3>
+        <ul>
+            <li>Ensure patient data confidentiality.</li>
+            <li>Protect against unauthorized access.</li>
+            <li>Maintain data integrity and availability.</li>
+        </ul>
+        
+    </div>
+
+    <div class="slide">
+        <h2 class="hipaa-title">The HIPAA Security Rule</h2>
+        <p>The Security Rule mandates three types of safeguards:</p>
+        
+        <div class="grid-3">
+            <div class="info-card admin">
+                <h3>1. Administrative</h3>
+                <p>Policies, training, and access management protocols.</p>
+            </div>
+            <div class="info-card physical">
+                <h3>2. Physical</h3>
+                <p>Secure facilities, device locks, and restricted workstation access.</p>
+            </div>
+            <div class="info-card tech">
+                <h3>3. Technical</h3>
+                <p>Encryption, authentication, and secure audit logs.</p>
+            </div>
+        </div>
+        <div class="example-box" style="margin-top: 20px;">
+            <strong>Example:</strong> Hospitals must limit system access to authorized medical personnel only.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="hipaa-title">Importance of HIPAA Compliance</h2>
+        <p>Failure to comply is not just a policy violation; it has legal consequences.</p>
+        <ul>
+            <li><strong>Heavy Fines:</strong> Penalties can range from thousands to millions of dollars.</li>
+            <li><strong>Legal Action:</strong> Possibility of criminal charges for negligence.</li>
+            <li><strong>Loss of Trust:</strong> Patients lose faith in the provider's ability to keep secrets.</li>
+        </ul>
+        <p>Compliance supports continuous improvement in healthcare security.</p>
+    </div>
+
+    <div class="slide">
+        <h2 class="pci-title">What is PCI DSS?</h2>
+        <p><strong>Payment Card Industry Data Security Standard</strong></p>
+        <p>A global security standard designed to protect credit and debit card information during payment processing.</p>
+        
+        <h3>Who Must Comply?</h3>
+        <ul>
+            <li>Merchants (Retailers, Online Stores)</li>
+            <li>Banks & Financial Institutions</li>
+            <li>Payment Processors</li>
+        </ul>
+        
+    </div>
+
+    <div class="slide">
+        <h2 class="pci-title">PCI DSS Requirements (Overview)</h2>
+        <div class="grid-3">
+            <div class="info-card">
+                <strong>Build a Secure Network</strong><br>
+                Install firewalls and do not use vendor-supplied defaults for passwords.
+            </div>
+            <div class="info-card">
+                <strong>Protect Data</strong><br>
+                Protect stored cardholder data and encrypt transmission across open networks.
+            </div>
+            <div class="info-card">
+                <strong>Vulnerability Mgmt</strong><br>
+                Use anti-virus software and develop secure systems/applications.
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="info-card">
+                <strong>Access Control</strong><br>
+                Restrict access to data by business need-to-know.
+            </div>
+            <div class="info-card">
+                <strong>Monitor Networks</strong><br>
+                Track and monitor all access to network resources and cardholder data.
+            </div>
+            <div class="info-card">
+                <strong>InfoSec Policy</strong><br>
+                Maintain a policy that addresses information security for all personnel.
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2 class="pci-title">PCI DSS in Action</h2>
+        <div class="example-box pci-box">
+            <strong>Example:</strong> An online shopping website must encrypt card data, use secure payment gateways, and perform regular vulnerability scans.
+        </div>
+        
+        <h3>Consequences of Non-Compliance</h3>
+        <ul>
+            <li>Financial penalties and fines.</li>
+            <li><strong>Loss of ability</strong> to process card payments (a business stopper).</li>
+            <li>Severe reputation damage.</li>
+        </ul>
+    </div>
+
+    <div class="slide" style="text-align: center; background: #f4f4f4;">
+        <h1>Knowledge Check</h1>
+        <p>Let's test your understanding of HIPAA and PCI DSS.</p>
+        <p>5 Questions</p>
+        <button class="nav-btn" style="background: #333; margin-top: 20px;" onclick="nextSlide()">Start Quiz</button>
+    </div>
+
+    <div class="slide">
+        <h3>Question 1 of 5</h3>
+        <p><strong>HIPAA:</strong> Which category of the Security Rule covers "Secure facilities, devices, and workstations"?</p>
+        <div class="options-grid">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Administrative safeguards refer to policies and training.')">Administrative Safeguards</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Physical safeguards involve securing the actual location and hardware.')">Physical Safeguards</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Technical safeguards refer to software controls like encryption.')">Technical Safeguards</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Procedural is not one of the three main categories.')">Procedural Safeguards</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Question 2 of 5</h3>
+        <p><strong>PCI DSS:</strong> Which of the following entities must comply with PCI DSS?</p>
+        <div class="options-grid">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Only entities that handle card data need to comply.')">Only Banks</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Online stores are definitely included.')">Only Physical Stores</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Merchants, banks, processors, and online stores handling card data must comply.')">Merchants, Banks, and Online Stores</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. While government agencies might comply if they take payments, the rule applies broadly to merchants.')">Only Government Agencies</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Question 3 of 5</h3>
+        <p><strong>HIPAA:</strong> What is the acronym for the sensitive data HIPAA aims to protect?</p>
+        <div class="options-grid">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Protected Health Information.')">PHI (Protected Health Information)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. PII is Personally Identifiable Information, which is broader than HIPAA.')">PII (Personally Identifiable Information)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect.')">PCI (Payment Card Information)</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect.')">HDD (Health Data Definition)</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Question 4 of 5</h3>
+        <p><strong>PCI DSS:</strong> Which of the following is a requirement for online shopping websites?</p>
+        <div class="options-grid">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Storing CVV codes is actually prohibited by PCI DSS.')">Store all CVV codes in a text file</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Passwords should never be shared.')">Share passwords among employees</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Scanning for vulnerabilities and encrypting data are key requirements.')">Perform regular vulnerability scans</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Firewalls are required.')">Disable firewalls for faster speed</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide">
+        <h3>Question 5 of 5</h3>
+        <p>What is a potential consequence for a business that fails to comply with PCI DSS?</p>
+        <div class="options-grid">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. They will likely be fined.')">A small warning letter only</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Non-compliance can lead to stripping the ability to process payments, effectively stopping the business.')">Loss of ability to process card payments</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Fines are usually levied against the organization, not just the IT manager.')">The IT manager is fired, but no fines occur</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect.')">Increased credit limit</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide" style="text-align: center;">
+        <h1>Module Complete</h1>
+        <p>You have reviewed the essentials of HIPAA and PCI DSS.</p>
+        <button class="nav-btn" style="background: var(--hipaa-color); border:none; margin-top:20px;" onclick="location.reload()">Restart Module</button>
+    </div>
+
+</div>
+
+<div class="controls">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8592; Previous</button>
+    <div class="counter" id="slideCounter">1 / 14</div>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next &#8594;</button>
+</div>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const counter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateSlide() {
+        // Hide all
+        slides.forEach(s => s.classList.remove('active'));
+        
+        // Show current
+        slides[currentSlide].classList.add('active');
+        
+        // Update Counter
+        counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+
+        // Disable buttons at ends
+        prevBtn.disabled = currentSlide === 0;
+        nextBtn.disabled = currentSlide === slides.length - 1;
+    }
+
+    function changeSlide(direction) {
+        const next = currentSlide + direction;
+        if(next >= 0 && next < slides.length) {
+            currentSlide = next;
+            updateSlide();
+        }
+    }
+
+    // Expose for the "Start Quiz" button inside the slide
+    window.nextSlide = function() { changeSlide(1); }
+
+    // Quiz Logic
+    window.checkAnswer = function(btn, isCorrect, msg) {
+        const parent = btn.closest('.slide');
+        const feedback = parent.querySelector('.feedback');
+        const allBtns = parent.querySelectorAll('.quiz-btn');
+
+        // Disable all buttons in this slide
+        allBtns.forEach(b => {
+            b.disabled = true;
+            b.style.opacity = '0.7';
+        });
+
+        feedback.style.display = 'block';
+        feedback.textContent = msg;
+
+        if(isCorrect) {
+            btn.style.background = '#d4edda';
+            btn.style.borderColor = '#28a745';
+            btn.style.opacity = '1';
+            feedback.className = 'feedback correct';
+        } else {
+            btn.style.background = '#f8d7da';
+            btn.style.borderColor = '#dc3545';
+            btn.style.opacity = '1';
+            feedback.className = 'feedback wrong';
+        }
+    };
+
+    // Keyboard Navigation
+    document.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight') changeSlide(1);
+        if(e.key === 'ArrowLeft') changeSlide(-1);
+    });
+
+    // Init
+    updateSlide();
+
+</script>
+
+</body>
+</html>

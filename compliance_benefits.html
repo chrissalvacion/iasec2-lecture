@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benefits of Security Compliance Presentation</title>
+    <style>
+        :root {
+            --primary-bg: linear-gradient(135deg, #1c2833 0%, #2c3e50 100%);
+            --slide-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #00796b; /* Teal/Green for security vibes */
+            --secondary-color: #546e7a;
+            --success-color: #d4edda;
+            --success-text: #155724;
+            --error-color: #f8d7da;
+            --error-text: #721c24;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--primary-bg);
+            overflow: hidden; /* Prevent scrolling for presentation feel */
+        }
+
+        /* Main container for the slide deck */
+        .presentation-container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Individual Slide Styling */
+        .slide {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh; /* Occupy most of the screen height */
+            background-color: var(--slide-bg);
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            padding: 40px 60px;
+            box-sizing: border-box;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Class used to show the current slide */
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            margin-bottom: 30px;
+        }
+        
+        h3.quiz-header {
+             color: var(--secondary-color);
+             text-transform: uppercase;
+             letter-spacing: 1px;
+             margin-top: 0;
+        }
+
+        p, li {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        /* Decorative elements */
+        .highlight { font-weight: bold; color: var(--accent-color); }
+
+        .example-box {
+            background-color: #e0f2f1; /* Light teal */
+            border-left: 6px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 1.2rem;
+            margin-top: 30px;
+        }
+        .example-box strong { color: var(--accent-color); }
+
+        /* ---------- Quiz Specific Styles ---------- */
+        .quiz-slide {
+            justify-content: flex-start; /* Align quiz content to top */
+            padding-top: 50px;
+        }
+
+        .quiz-question-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .quiz-btn {
+            padding: 20px;
+            font-size: 1.1rem;
+            background-color: #f9f9f9;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            font-family: inherit;
+            outline: none;
+        }
+
+        .quiz-btn:hover:not(:disabled) {
+            background-color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .quiz-btn:disabled {
+            cursor: default;
+            opacity: 0.7;
+        }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            text-align: center;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .feedback.correct { background: var(--success-color); color: var(--success-text); border: 1px solid #c3e6cb; }
+        .feedback.incorrect { background: var(--error-color); color: var(--error-text); border: 1px solid #f5c6cb; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ---------- Navigation Controls ---------- */
+        .controls-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+            box-sizing: border-box;
+            z-index: 100;
+            color: white;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: white;
+            color: var(--accent-color);
+            border-color: white;
+        }
+        
+        .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .progress-indicator { font-size: 1.1rem; letter-spacing: 1px; }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 900px) {
+            .slide { width: 95%; height: 80vh; padding: 30px; }
+            h1 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            p, li, .example-box, .quiz-btn { font-size: 1.1rem; }
+            .quiz-options { grid-template-columns: 1fr; gap: 15px; } /* Stack quiz options */
+        }
+    </style>
+</head>
+<body>
+
+<div class="presentation-container">
+
+    <div class="slide active" style="text-align: center;">
+        <h1>The Benefits of Security Compliance</h1>
+        <p style="font-size: 1.5rem; color: var(--secondary-color);">Why adherence to regulations matters for organizations, employees, and customers.</p>
+        <p style="margin-top: 50px; font-size: 1rem; opacity: 0.8;">Use the buttons below or your keyboard arrows to navigate.</p>
+    </div>
+
+    <div class="slide">
+        <h2>1. Legal and Regulatory Protection</h2>
+        <p>Compliance helps organizations <span class="highlight">avoid legal penalties</span>, hefty fines, and lawsuits by ensuring adherence to mandatory government and industry regulations.</p>
+        <p>Failing to comply can lead to severe financial damage and reputational ruin.</p>
+        <div class="example-box">
+            <strong>Example:</strong> A hospital adhering strictly to <strong>HIPAA</strong> regulations avoids massive government fines related to patient data breaches.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>2. Improved Security Posture</h2>
+        <p>Compliance is not just about paperwork; it forces better technical security.</p>
+        <p>Most compliance frameworks mandate the implementation of <span class="highlight">security best practices</span> that might otherwise be overlooked, hardening the organization against attacks.</p>
+        <ul>
+            <li>Requiring strong encryption for data at rest and in transit.</li>
+            <li>Enforcing strict access controls (Least Privilege).</li>
+            <li>Implementing continuous monitoring and logging.</li>
+        </ul>
+    </div>
+
+    <div class="slide">
+        <h2>3. Increased Customer Trust</h2>
+        <p>In the digital age, trust is a currency. When organizations demonstrate formal compliance, customers feel confident that their sensitive data is being protected responsibly.</p>
+        <p>It acts as a <span class="highlight">competitive advantage</span>, showing you take security seriously.</p>
+        <div class="example-box">
+            <strong>Example:</strong> Online shoppers prefer e-commerce websites that display compliance with <strong>PCI DSS</strong> (Payment Card Industry Data Security Standard), knowing their card details are secure.
+        </div>
+    </div>
+
+    <div class="slide">
+        <h2>4. Risk Reduction</h2>
+        <p>Compliance involves a proactive approach to security rather than reactive.</p>
+        <p>Through mandatory regular audits, risk assessments, and detailed documentation, compliance helps organizations <span class="highlight">identify vulnerabilities early</span> before attackers can exploit them.</p>
+    </div>
+
+    <div class="slide">
+        <h2>5. Business Continuity</h2>
+        <p>What happens when things go wrong? Compliance often requires robust policies for incident response, data backups, and disaster recovery.</p>
+        <p>This ensures that businesses can <span class="highlight">continue operations</span> or recover quickly during cyber incidents or disruptions, minimizing downtime losses.</p>
+    </div>
+
+    <div class="slide" style="text-align: center; background: var(--accent-color);">
+        <h1 style="color: white;">Knowledge Check</h1>
+        <p style="color: white; font-size: 1.5rem;">Let's test your understanding with 5 questions.</p>
+    </div>
+
+    <div class="slide quiz-slide">
+        <h3 class="quiz-header">Question 1 of 5</h3>
+        <p class="quiz-question-text">An online retailer wants to assure customers that their credit card information is safe. Which benefit of compliance relates directly to this scenario?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. While important for operations, Continuity doesn\'t directly address customer assurance regarding data safety.')">Business Continuity</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Demonstrating compliance (like PCI DSS) directly builds customer confidence that their data is protected.')">Increased Customer Trust</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. While compliance helps avoid fines, the primary goal here is customer assurance.')">Legal Protection</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Risk reduction is internal; customer trust is the external benefit here.')">Risk Reduction</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide quiz-slide">
+        <h3 class="quiz-header">Question 2 of 5</h3>
+        <p class="quiz-question-text">A company is forced by a compliance framework to implement multi-factor authentication (MFA) and data encryption. This is an example of which benefit?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Compliance frameworks often mandate technical best practices that harden the overall system security.')">Improved Security Posture</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. This relates to recovery after an incident, not preventive technical measures like MFA.')">Business Continuity</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. While these measures build trust, the direct benefit of implementing technical controls is an improved posture.')">Customer Trust</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Legal protection is about avoiding lawsuits, not implementing technical controls.')">Legal Protection</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide quiz-slide">
+        <h3 class="quiz-header">Question 3 of 5</h3>
+        <p class="quiz-question-text">Which benefit specifically focuses on ensuring an organization can keep running during a cyber incident or disruption?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Risk reduction is about finding vulnerabilities *before* an incident.')">Risk Reduction</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. This is about avoiding fines.')">Regulatory Protection</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Business Continuity ensures policies for backups and recovery are in place to maintain operations during disruptions.')">Business Continuity</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Security posture relates to defense strength, not recovery operations.')">Improved Security Posture</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide quiz-slide">
+        <h3 class="quiz-header">Question 4 of 5</h3>
+        <p class="quiz-question-text">A healthcare provider adheres strictly to HIPAA regulations to ensure they are not sued or fined by the government for data mishandling. What is primary benefit here?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! The primary motivator mentioned is avoiding government fines and lawsuits, which falls under Legal and Regulatory Protection.')">Legal and Regulatory Protection</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. While HIPAA compliance improves security, the specific motive mentioned is avoiding fines.')">Improved Security Posture</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. This relates to proactive auditing.')">Risk Reduction</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. This relates to disaster recovery.')">Business Continuity</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide quiz-slide">
+        <h3 class="quiz-header">Question 5 of 5</h3>
+        <p class="quiz-question-text">How does compliance primarily contribute to "Risk Reduction"?</p>
+        <div class="quiz-options">
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Backups relate to Business Continuity.')">By requiring data backups.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, true, 'Correct! Compliance mandates regular audits and assessments, which helps identify vulnerabilities proactively.')">By requiring regular audits and assessments to identify issues early.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Avoiding fines is Legal Protection.')">By avoiding government fines.</button>
+            <button class="quiz-btn" onclick="checkAnswer(this, false, 'Incorrect. Showing logos relates to Customer Trust.')">By showing compliance logos on the website.</button>
+        </div>
+        <div class="feedback"></div>
+    </div>
+
+    <div class="slide" style="text-align: center;">
+        <h1>Presentation Complete</h1>
+        <p>You have reviewed the key benefits of security compliance.</p>
+        <button class="nav-btn" style="background: var(--accent-color); border: none; margin-top: 20px;" onclick="location.reload()">Restart Presentation</button>
+    </div>
+
+</div>
+
+<div class="controls-container">
+    <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">&#8592; Previous</button>
+    <span class="progress-indicator" id="slideProgress">Slide 1 of 13</span>
+    <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">Next &#8594;</button>
+</div>
+
+
+<script>
+    // Presentation State
+    let currentSlideIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    
+    // DOM elements needed for navigation
+    const progressIndicator = document.getElementById('slideProgress');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    // Initialize Presentation
+    function init() {
+        showSlide(currentSlideIndex);
+        updateControls();
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                changeSlide(-1);
+            }
+        });
+    }
+
+    // Core function to display a specific slide
+    function showSlide(index) {
+        // Remove active class from all slides
+        slides.forEach(slide => {
+            slide.classList.remove('active');
+        });
+
+        // Add active class to the target slide
+        slides[index].classList.add('active');
+        
+        // Update state index
+        currentSlideIndex = index;
+        updateControls();
+    }
+
+    // Function to handle Next/Previous actions
+    function changeSlide(direction) {
+        let newIndex = currentSlideIndex + direction;
+
+        // Bounds check to prevent going past first or last slide
+        if (newIndex >= 0 && newIndex < totalSlides) {
+            showSlide(newIndex);
+        }
+    }
+
+    // Update navigation button states and progress text
+    function updateControls() {
+        progressIndicator.textContent = `Slide ${currentSlideIndex + 1} of ${totalSlides}`;
+        
+        // Disable Previous button on first slide
+        prevBtn.disabled = currentSlideIndex === 0;
+        
+        // Disable Next button on last slide
+        nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+    }
+
+    // ---------- Quiz Logic ----------
+
+    function checkAnswer(buttonElement, isCorrect, feedbackText) {
+        const currentSlide = buttonElement.closest('.slide');
+        const feedbackDiv = currentSlide.querySelector('.feedback');
+        const allOptions = currentSlide.querySelectorAll('.quiz-btn');
+
+        // 1. Disable all buttons in this quiz question to prevent re-guessing
+        allOptions.forEach(btn => {
+            btn.disabled = true;
+            // Reset styles just in case
+            btn.style.borderColor = '#e0e0e0'; 
+            btn.style.backgroundColor = '#f9f9f9';
+        });
+
+        // 2. Style the clicked button based on correctness
+        if (isCorrect) {
+            buttonElement.style.backgroundColor = '#d4edda';
+            buttonElement.style.borderColor = '#28a745';
+            buttonElement.style.color = '#155724';
+            feedbackDiv.className = 'feedback correct';
+        } else {
+            buttonElement.style.backgroundColor = '#f8d7da';
+            buttonElement.style.borderColor = '#dc3545';
+            buttonElement.style.color = '#721c24';
+            feedbackDiv.className = 'feedback incorrect';
+        }
+
+        // 3. Show feedback message
+        feedbackDiv.textContent = feedbackText;
+        feedbackDiv.style.display = 'block';
+    }
+
+    // Start the engine
+    init();
+
+</script>
+
+</body>
+</html>
